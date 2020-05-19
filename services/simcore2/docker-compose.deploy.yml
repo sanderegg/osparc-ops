@@ -261,6 +261,29 @@ networks:
   monitored:
     external: true
     name: ${MONITORED_NETWORK}
+  interactive_services_subnet:
+    driver: overlay
+    attachable: true
+    internal: false
+    labels:
+      com.simcore.description: "interactive services network"
+    ipam:
+      driver: default
+      config:
+        # FIXME: move to base docker-compose.yml
+        - subnet: ${SIMCORE_INTERACTIVE_NETWORK_SUBNET}
+
+  computational_services_subnet:
+    driver: overlay
+    attachable: true
+    internal: false
+    labels:
+      com.simcore.description: "computational services network"
+    ipam:
+      driver: default
+      config:
+        # FIXME: move to base docker-compose.yml
+        - subnet: ${SIMCORE_COMPUTATIONAL_NETWORK_SUBNET}
 
 # self-signed only
 secrets:
