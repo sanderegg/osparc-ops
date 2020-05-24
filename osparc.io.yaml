@@ -1,0 +1,50 @@
+environment:
+  - PRODUCTION_SIMCORE_DOMAIN=osparc.io
+  - STAGING_SIMCORE_DOMAIN=staging.osparc.io
+  - MONITORING_DOMAIN=monitoring.osparc.io
+  - STORAGE_DOMAIN=storage.osparc.io
+  - PUBLIC_NETWORK=public_network
+  - MONITORED_NETWORK=monitored_network
+  - DOCKER_REGISTRY=itisfoundation
+
+stacks:
+  portainer:
+    version: latest
+    environment:
+      - PORTAINER_ADMIN_PWD=eekieFeeN4xee6ah
+  traefik:
+    traefik:
+      version: 2.2.1
+      environment:
+        - TRAEFIK_USER=admin
+        - TRAEFIK_PASSWORD=$apr1$LSHRyCI6$13po0BkGcZoPHllVHonbI.
+    whoami:
+      version: latest
+
+  minio:
+    version: RELEASE.2019-09-26T19-42-35Z
+    environment:
+      - MINIO_ACCESS_KEY=osparcMINIOaccess
+      - MINIO_SECRET_KEY=osparcMINIOsecret
+      - MINIO_NUM_MINIOS=2
+      - MINIO_NUM_PARTITIONS=3
+      - MINIO_INTERNAL_VOLUME_DATA_PART0=/data/disk0/minio
+      - MINIO_INTERNAL_VOLUME_DATA_PART1=/data/disk1/minio
+      - MINIO_INTERNAL_VOLUME_DATA_PART2=/data/disk2/minio
+  portus:
+    portus:
+      version:
+  staging-simcore:
+    version: staging-latest
+    environment:
+      - PREFIX_STACK_NAME=staging
+      - SIMCORE_STACK_NAME=staging-simcore
+      - SIMCORE_IMAGE_TAG=staging-latest
+      - SIMCORE_DOCKER_REGISTRY=itisfoundation
+  production-simcore:
+    version: latest
+    environment:
+      - PREFIX_STACK_NAME=production
+      - SIMCORE_STACK_NAME=production-simcore
+      - SIMCORE_IMAGE_TAG=latest
+      - SIMCORE_DOCKER_REGISTRY=itisfoundation
